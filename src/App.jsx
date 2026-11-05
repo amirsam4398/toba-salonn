@@ -37,11 +37,16 @@ export default function App() {
     setBookingSuccess(code);
   };
 
+  const sendToBale = () => {
+    const text = encodeURIComponent(`🤖 [زیباسرای طوبی - پیام‌رسان بله]:\nرزرو جدید ثبت شد!\n\n👤 مشتری: ${customerName}\n📱 تلفن: ${customerPhone}\n💼 خدمت: ${selectedService}\n📅 تاریخ ثبت: ${bookingDate}\n🗓️ تاریخ مراجعه: ${visitDate}\n🔑 کد پیگیری: ${bookingSuccess}`);
+    window.open(`https://ble.ir/${managerPhone}?text=${text}`, '_blank');
+  };
+
   return (
     <div style={{ backgroundColor: '#1a0f1a', color: '#fbcfe8', minHeight: '100vh', padding: '16px', fontFamily: 'sans-serif', direction: 'rtl', display: 'flex', justifyContent: 'center', paddingBottom: '80px' }}>
       <div style={{ width: '100%', maxWidth: '400px', backgroundColor: '#2d1529', border: '1px solid rgba(244, 114, 182, 0.4)', borderRadius: '24px', padding: '20px', boxShadow: '0 25px 50px -12px rgba(236, 72, 153, 0.25)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
         
-        {/* اطلاعات سالن و دکمه‌های ارتباطی با بله */}
+        {/* اطلاعات سالن و مدیریت */}
         <div style={{ textAlign: 'center', backgroundColor: '#3b1c35', border: '1px solid rgba(244, 114, 182, 0.3)', borderRadius: '16px', padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <h1 style={{ fontSize: '22px', fontWeight: '900', color: '#ffffff', margin: 0 }}>{salonName}</h1>
           <p style={{ fontSize: '11px', color: '#f472b6', margin: 0 }}>مدیریت: {managerName}</p>
@@ -55,7 +60,7 @@ export default function App() {
               💬 بله ({managerPhone})
             </a>
             <a href={`tel:${managerPhone}`} style={{ color: '#ffffff', textDecoration: 'none', backgroundColor: 'rgba(74, 222, 128, 0.2)', padding: '8px 2px', borderRadius: '8px', border: '1px solid rgba(74, 222, 128, 0.4)', fontSize: '10px', fontWeight: 'bold', display: 'block', textAlign: 'center' }}>
-              📞 تماس مستقیم
+              📞 تماس
             </a>
           </div>
         </div>
@@ -116,9 +121,12 @@ export default function App() {
         </form>
 
         {bookingSuccess && (
-          <div style={{ backgroundColor: 'rgba(131, 24, 98, 0.6)', border: '1px solid #ec4899', borderRadius: '12px', padding: '12px', textAlign: 'center', color: '#fbcfe8', fontSize: '11px', fontWeight: 'bold' }}>
-            🎉 نوبت شما ثبت شد! کد پیگیری: {bookingSuccess}<br/>
-            <span style={{ fontSize: '10px', color: '#f472b6' }}>تاریخ مراجعه: {visitDate}</span>
+          <div style={{ backgroundColor: 'rgba(131, 24, 98, 0.6)', border: '1px solid #ec4899', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px', textAlign: 'center', color: '#fbcfe8', fontSize: '11px', fontWeight: 'bold' }}>
+            <div>🎉 نوبت شما ثبت شد! کد پیگیری: {bookingSuccess}<br/>
+            <span style={{ fontSize: '10px', color: '#f472b6' }}>تاریخ مراجعه: {visitDate}</span></div>
+            <button type="button" onClick={sendToBale} style={{ width: '100%', padding: '8px', backgroundColor: '#38bdf8', color: '#09090b', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer' }}>
+              🤖 ارسال گزارش به مدیر در پیام‌رسان بله
+            </button>
           </div>
         )}
 
@@ -134,7 +142,7 @@ export default function App() {
 }
 ```eof
 
-بعد از اینکه کدی که خواستی رو توی `nano` پیست کردی و ذخیره کردی (با زدن کلیدهای Ctrl+O و Enter و سپس Ctrl+X)، برای نشستن تغییرات روی گیت‌هاب و بیلد خودکار روی ورسل، این دستور نهایی رو بزن مربی:
+حالا برای اینکه خطا برطرف بشه و ورسل پروژه رو بشناسه، این ۳ دستور کوتاه رو توی ترمکس بزن مربی تا بیلد نهایی انجام بشه:
 
 ```bash
-git add . && git commit -m "Update App.jsx with clear Bale messenger button" && git push origin main
+git add . && git commit -m "Fix root component structure for Vercel deployment" && git push origin main
